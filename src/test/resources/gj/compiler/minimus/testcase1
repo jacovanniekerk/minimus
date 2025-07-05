@@ -1,0 +1,16 @@
+.data
+1               ;stored at 0x1000
+1               ;stored at 0x1001
+.code
+LOADI 0x1000, r1
+LOADI 0x1001, r2
+MOVI 1, r0      ; "1" is the system call for print
+SYSCALL         ; call the OS to print r1
+:loop
+MOV r1, r3      ; Store old value of r1 into r3
+ADD r2, r1      ; Add r2 to r1 (r1 = r1 + r2)
+MOV r3, r2
+SYSCALL         ; call the OS to print r1
+CMPI r1, 1000
+JLE :loop
+HALT
