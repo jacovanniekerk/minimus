@@ -3,6 +3,7 @@ package gj.compiler.minimus;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 /**
  * Minimus Virtual Machine
@@ -56,16 +57,33 @@ public class VirtualMachine {
 
     private int[] memory = new int[MEM_SIZE];
 
-    public VirtualMachine(String assembly){
 
+    public VirtualMachine(){
     }
 
-    // extract section
-    private List<String> extractSection(String section) { return null; }
+    /* Extract a given segment and drop all comments (; this is a comment). */
+    private List<String> extractSection(String program, String section) {
+        // Regular expression matches the section name and then grabs the
+        // content as group 1, but stops stort of the next section name or
+        // the end of the file, that's the "(?=\.\w+|$)" part.
+        Pattern pattern = Pattern.compile(
+                "\\." + Pattern.quote(section) + "\\R(.*?)(?=\\.\\w+|$)",
+                Pattern.DOTALL);
+        Matcher m = pattern.matcher(program);
+        return m.find()
+                ? Arrays.stream(m.group(1).trim().split("\\R+"))
+                .map(line -> line.replaceFirst(";.*$", "").trim())
+                .filter(s -> !s.isEmpty())
+                .collect(Collectors.toList())
+                : Collections.emptyList();
+    }
 
 
     // convert opcode and args into 3-byte string
     private int[] decode(String instruction, int ip) {
+
+
+
         return null;
     }
 
@@ -80,8 +98,23 @@ public class VirtualMachine {
 
         // get code section
         // for each instruction
-        //      decode instruction
+        //      opcode or label?
+        //          store location if label
+        //      else
+        //          decode instruction
+        //          load into memory
 
+    }
+
+    private void execute() {
+
+        // set ip, sp
+        // execute
+
+    }
+
+    public void run(String program) {
+        System.out.println(String.join("\n", extractSection(program, "code")));
     }
 
 

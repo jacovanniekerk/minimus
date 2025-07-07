@@ -16,7 +16,7 @@ public class InterpreterTest {
 
     @Test
     public void testWhile() {
-        String program = "{ b=1; a=2; while (b < 10) { a=a*`2; b=b+1; }}";
+        String program = "{ b=1; a=2; while (b < 10) { a=a*2; b=b+1; }}";
         Interpreter i = new Interpreter((program));
         i.run();
     }
