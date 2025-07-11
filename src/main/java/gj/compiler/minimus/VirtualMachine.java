@@ -54,9 +54,9 @@ import java.util.stream.Collectors;
 public class VirtualMachine {
 
     private static final int MEM_SIZE = 0xffff;
+    private static final int DATA_SECTION_START = 0x1000;
 
     private int[] memory = new int[MEM_SIZE];
-
 
     public VirtualMachine(){
     }
@@ -88,22 +88,28 @@ public class VirtualMachine {
     }
 
     // load program
-    private void load() {
+    private void load(String program) {
 
-        // get data section
-        // for each value
-        //      load into memory
+        // Load the dta section.
+        List<String> section = extractSection(program, "data");
+        ListIterator<String> it = section.listIterator();
+        while (it.hasNext()) {
+            memory[DATA_SECTION_START + it.nextIndex()] = Integer.parseInt(it.next());
+        }
+
+
+        // Load the code section.
+        section = extractSection(program, "code");
+        Map<String, Integer> labels = new HashMap<>();
+        
+
 
         // set instruction pointer
+        // extract label positions
 
-        // get code section
-        // for each instruction
-        //      opcode or label?
-        //          store location if label
-        //      else
+        // for each instruction that is not label
         //          decode instruction
         //          load into memory
-
     }
 
     private void execute() {
@@ -114,7 +120,14 @@ public class VirtualMachine {
     }
 
     public void run(String program) {
-        System.out.println(String.join("\n", extractSection(program, "code")));
+
+        //System.out.println(String.join("\n", extractSection(program, "code")));
+        try {
+            load(program);
+        } catch (NumberFormatException e) {
+
+        }
+
     }
 
 

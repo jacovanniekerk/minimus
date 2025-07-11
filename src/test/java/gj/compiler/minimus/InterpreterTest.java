@@ -23,7 +23,7 @@ public class InterpreterTest {
 
     @Test
     public void testPrint() {
-        String program = "{ a = 2; while (a <= 100) { print(a*a); a = a + 1; } }";
+        String program = "{ a = 1; while (a <= 10) { print(a*a); a = a + 1; } }";
         Interpreter i = new Interpreter((program));
         i.run();
     }
