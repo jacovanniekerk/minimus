@@ -16,6 +16,12 @@ public class ScannerTest {
     }
 
     @Test
+    public void testTest() {
+        TokenType[] expected = {TOKEN_SEMICOLON, TOKEN_SEMICOLON, TOKEN_SEMICOLON, TOKEN_SEMICOLON};
+        actualTest(new Scanner(";;  ;;"), expected);
+    }
+
+    @Test
     public void testSimple() {
         String program = "a=12;b=a+7*3;";
         TokenType[] expected = {TOKEN_ID, TOKEN_ASSIGNMENT, TOKEN_INT, TOKEN_SEMICOLON,

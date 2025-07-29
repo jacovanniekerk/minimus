@@ -288,7 +288,7 @@ public class Parser {
      * <pre> id ::= "a" | "b" | "c" | "d" | ... | "z" </pre>
      */
     private Node id() {
-        return new Node(NodeType.NODE_VARIABLE, scanner.next().value);
+        return new Node(NodeType.NODE_VARIABLE, scanner.next().lexeme);
     }
 
     /**
@@ -296,7 +296,7 @@ public class Parser {
      * <pre> int ::= an unsigned integer </pre>
      **/
     private Node integer() {
-        return new Node(NodeType.NODE_INTEGER, scanner.next().value);
+        return new Node(NodeType.NODE_INTEGER, scanner.next().lexeme);
     }
 
 }

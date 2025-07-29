@@ -32,6 +32,8 @@ package gj.compiler.minimus;
  */
 public class Scanner {
 
+    public static final char END_OF_TEXT = 0x03;
+
     /* This defines all the possible tokens for the language.  Traditionally
        this could also be defined as a list of constants, but enums are much
        more elegant.  A token is the smallest building block of your language,
@@ -50,11 +52,11 @@ public class Scanner {
        value, if applicable. */
     public static class Token {
         public TokenType type;
-        public String value;
+        public String lexeme;
 
-        public Token(TokenType type, String value) {
+        public Token(TokenType type, String lexeme) {
             this.type = type;
-            this.value = value;
+            this.lexeme = lexeme;
         }
 
         public Token(TokenType type) {
@@ -63,8 +65,8 @@ public class Scanner {
 
         @Override
         public String toString() {
-            if (value != null) {
-                return String.format("Symbol {type=%s, value=%s}", type, value);
+            if (lexeme != null) {
+                return String.format("Symbol {type=%s, lexeme=%s}", type, lexeme);
             } else {
                 return String.format("Symbol {type=%s}", type);
             }
@@ -96,7 +98,7 @@ public class Scanner {
     /* Returns the next character in the program (or 0x03 if end of input is
        found. */
     private char nextChar() {
-        char ch = location < program.length() ? program.charAt(location++) : 0x03;
+        char ch = location < program.length() ? program.charAt(location++) : END_OF_TEXT;
         if (ch == '\n') {
             line = line + 1;
         }
@@ -105,7 +107,7 @@ public class Scanner {
 
     /* This peeks ahead without moving the location pointer. */
     private char peekChar() {
-        return location < program.length() ? program.charAt(location) : 0x03;
+        return location < program.length() ? program.charAt(location) : END_OF_TEXT;
     }
 
     /* Handles "<" and "<=". */
@@ -196,7 +198,7 @@ public class Scanner {
         }
 
         switch (ch) {
-            case 0x03:
+            case END_OF_TEXT:
                 return new Token(TokenType.TOKEN_EOI);
             case '{':
                 return new Token(TokenType.TOKEN_CURLY_OPEN);

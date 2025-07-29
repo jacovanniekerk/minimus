@@ -28,4 +28,11 @@ public class InterpreterTest {
         i.run();
     }
 
+    @Test
+    public void testLongSequence() {
+        String program = "{ a=1; b=2; c=3; d=4; e=a+b; f=c+d; g=e+f; }";
+        Interpreter i = new Interpreter((program));
+        i.run();
+    }
+
 }

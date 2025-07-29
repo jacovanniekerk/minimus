@@ -62,6 +62,14 @@ public class ParserTest {
     }
 
     @Test
+    public void testLongSequence() {
+        String program = "{ a=1; b=2; c=3; d=4; e=a+b; f=c+d; g=e+f; }";
+        Parser parser = new Parser(program);
+        Parser.Node node = parser.parse();
+        print(node);
+    }
+
+    @Test
     public void testPrint() {
         String program = "{print(12);}";
         Parser parser = new Parser(program);
